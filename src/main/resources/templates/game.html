@@ -56,11 +56,11 @@
 
 		<div class="input-group" >
 			<span><strong>工号：</strong> </span> 
-			<input type="text" class="number" name="number" id="number" th:value=${diningUser?.number}/><br><!-- th:value="${diningTrade.number}" th:value="${diningTrade.name}" th:value="${diningTrade.phone}"--> 
+			<input type="text" class="userNumber" name="userNumber" id="userNumber" th:value=${commodityTrading.commodityUser?.userNumber}/><br><!-- th:value="${diningTrade.number}" th:value="${diningTrade.name}" th:value="${diningTrade.phone}"-->
 			<span><strong>姓名：</strong></span> 
-			<input type="text" class="name" name="name" id="name" th:value=${diningUser?.name}/> <br>
+			<input type="text" class="userName" name="userName" id="userName" th:value=${commodityTrading.commodityUser?.userName}/> <br>
 			<span><strong>电话：</strong> </span> 
-			<input type="text" class="phone" name="phone" id="phone" th:value=${diningUser?.phone}/><br>
+			<input type="text" class="userPhone" name="userPhone" id="userPhone" th:value=${commodityTrading.commodityUser?.userPhone}/><br>
 			<button type="button" class="btn btn-info" onclick="register()">提交</button>
 		</div>
 		<br><br>
@@ -70,6 +70,11 @@
 					<th align="center">物品</th>
 					<th align="center">单价</th>
 					<th align="center">换购数量</th>
+				</tr>
+				<tr th:each="commodityPrice,commodityStat:${commodityPrice}">
+					<td th:text="${commodityPrice.commodityName}"/>
+					<td th:text="${commodityPrice.commodityPrice}"/>
+					<td><input type="text" class="good1" name="good1" id="good1" th:value=${commodityTrading?.good1}/></td>
 				</tr>
 				<tr>
 					<td align="center">香港南园杏仁500g</td>

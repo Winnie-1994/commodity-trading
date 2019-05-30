@@ -18,8 +18,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.junit.Test;
 
-import com.cmit.trading.dao.DiningCal;
-
 public class TestExcel {
 
 //	@Test

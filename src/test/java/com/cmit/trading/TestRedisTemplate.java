@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.cmit.trading.domain.CommodityTradingDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,10 @@ public class TestRedisTemplate {
 
 	@Autowired
 	private RedisTemplate<Object, Object> redisTemplate;
-	
+
+	@Autowired
+	private CommodityTradingDao commodityTradingDao;
+
 //	@Test
 	public void test () {
 		redisTemplate.opsForHash().put("13001445", "碧根果", new Student("1000", "caiwj"));
@@ -82,10 +86,19 @@ public class TestRedisTemplate {
 //		redisTemplate.opsForZSet().add("GoodsList", "君子兰馒头粉5kg", 33);
 //		Set<Object> dininglist =  redisTemplate.opsForZSet().rangeByScore("GoodsList", 1, 33);
 //		Map<Object, Object> tlist =  redisTemplate.opsForHash().entries("GoodsPrice");
-		Object olist =  redisTemplate.opsForHash().get("GoodsPrice", "香港南园杏仁500g");
+//		Object olist =  redisTemplate.opsForHash().get("GoodsPrice", "香港南园杏仁500g");
+//		CommodityTradingDao commodityTradeDao = new CommodityTradingDao();
+		Set<Object> s1 = commodityTradingDao.getAllCommodityList();
+		Map<Object, Object> s2 = commodityTradingDao.getAllCommodityPrice();
+		Object s3 = commodityTradingDao.getCommodityPrice("香港南园杏仁500g");
+
+
 //		System.out.println(dininglist);
 //		System.out.println(tlist);
-		System.out.println(olist);
+//		System.out.println(olist);
+		System.out.println(s1);
+		System.out.println(s2);
+		System.out.println(s3);
 	}
 	
 	class Student {
@@ -111,5 +124,12 @@ public class TestRedisTemplate {
 		}
 		
 	}
+
+	@Test
+	public void TestScore(){
+		Double score = redisTemplate.opsForZSet().score("CommoditySorted", "香港南园杏仁500g");
+	}
+
+
 	
 }
