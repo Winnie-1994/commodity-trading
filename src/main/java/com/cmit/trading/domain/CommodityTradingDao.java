@@ -1,5 +1,6 @@
 package com.cmit.trading.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +9,7 @@ import javax.annotation.Resource;
 
 import com.cmit.trading.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -20,33 +22,38 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CommodityTradingDao {
 
-	@Autowired
-	private RedisTemplate<Object, Object> redisTemplate; // 2
+    @Autowired
+    @Qualifier("jsonRedisTemplate")
+    private RedisTemplate<Object, Object> jsonRedisTemplate;
 
-	CommodityUser commodityUser;
+    @Autowired
+    @Qualifier("stringRedisTemplate")
+    private RedisTemplate<String, String> stringRedisTemplate;
 
-	//	public Set<Commodity> getCommodity(){
-//		Set<Object> commodityList = redisTemplate.opsForZSet().rangeByScore("CommoditySorted", 1, 33);
-//		redisTemplate.opsForZSet().score("CommoditySorted", "香港南园杏仁500g");
-//
-//
-//	}
+    public ArrayList<Commodity> getCommodityList() {
+        Integer hashKey = 1;
+        Integer hasKey_Max = 33;
+        ArrayList<Commodity> commodityList = new ArrayList<>();
 
-	public Set<Object> getAllCommodityList() {
-		Set<Object> allCommodityList = redisTemplate.opsForZSet().rangeByScore("CommoditySorted", 1, 33);
-		return allCommodityList;
-	}
+        for (; hashKey <= hasKey_Max; hashKey++) {
+            Commodity commodity = new Commodity();
+            commodity.setCommodityId(hashKey);
+            commodity.setCommodityName((String) stringRedisTemplate.opsForHash().get("CommodityIdAndName", hashKey.toString()));
+            commodity.setCommodityPrice((String) stringRedisTemplate.opsForHash().get("CommodityIdAndPrice", hashKey.toString()));
+            commodityList.add(commodity);
+        }
 
-	public Object getCommodityPrice(Object commodityName) {
-		Object commodityPrice = redisTemplate.opsForHash().get("Commodity", commodityName);
-		return commodityPrice;
-	}
+        return commodityList;
+    }
 
-	public Map<Object, Object> getAllCommodityPrice() {
-		Map<Object, Object> allCommodityPrice = redisTemplate.opsForHash().entries("Commodity");
-		return allCommodityPrice;
-	}
+    public void setCommoditingTrading(CommodityTrading commoditingTrading){
+        jsonRedisTemplate.opsForHash().put(commoditingTrading.getCommodityUser().getUserNumber(), "用户信息", commoditingTrading.getCommodityUser());
+//        jsonRedisTemplate.opsForHash().put(commoditingTrading.getCommodityUser().getUserNumber(), "换购数量", commoditingTrading.getCommodityTradingList());
+//        jsonRedisTemplate.opsForHash().put(commoditingTrading.getCommodityUser().getUserNumber(), "换购总价", commoditingTrading.getCommodityTradingTotalPrice());
+    }
 
-
+    public void setCommodityUser(CommodityUser commodityUser){
+        jsonRedisTemplate.opsForHash().put(commodityUser.getUserNumber(), "用户信息", commodityUser);
+    }
 
 }

@@ -13,6 +13,7 @@ package com.cmit.trading.dao;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -29,13 +30,8 @@ public class CommodityTrading {
 
     private CommodityUser commodityUser;
 
-    /**
-     * Map-> key->商品ID value->商品数量
-     */
-    private Map<String, Integer> commodityTradingList;
+    private Map<Integer, String> commidityTradingAmount;
 
     private Double commodityTradingTotalPrice;
-
-
 
 }

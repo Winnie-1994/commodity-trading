@@ -30,6 +30,19 @@ import com.cmit.trading.domain.CommodityTradingDao;
 public class CommodityTradingService {
 
 	@Autowired
-	CommodityTradingDao diningTradeDao;
+	CommodityTradingDao commodityTradingDao;
+
+	public ArrayList<Commodity> getCommodityList(){
+		ArrayList<Commodity> commodityList = commodityTradingDao.getCommodityList();
+		return commodityList;
+	}
+
+	public void setCommoditingTrading(CommodityTrading commoditingTrading){
+		commodityTradingDao.setCommoditingTrading(commoditingTrading);
+	}
+
+	public void setCommodityUser(CommodityUser commodityUser){
+		commodityTradingDao.setCommodityUser(commodityUser);
+	}
 
 }

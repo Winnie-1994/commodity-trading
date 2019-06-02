@@ -26,7 +26,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class Commodity {
-    private String commodityId;
+    private Integer commodityId;
     private String commodityName;
     private  String commodityPrice;
 }

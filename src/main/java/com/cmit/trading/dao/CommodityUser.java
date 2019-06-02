@@ -3,6 +3,8 @@ package com.cmit.trading.dao;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
 * @author: wunt
 * @date: 2019-04-13 
@@ -10,7 +12,7 @@ import lombok.Setter;
 */
 @Getter
 @Setter
-public class CommodityUser {
+public class CommodityUser implements Serializable {
 	
 	private String userNumber;
 	private String userName;
